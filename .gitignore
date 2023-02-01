@@ -1,1 +1,3 @@
 **/*.tfstate
+example/.terraform*
+example/my*
