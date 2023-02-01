@@ -1,5 +1,4 @@
 **/*.tfstate
 example/**/*.tfstate
 example/**/.terraform
-example/**/providers.tf
 example/mylocal.auto.tfvars
