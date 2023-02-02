@@ -8,7 +8,8 @@ variable "location" {
 variable "default_email_contacts" {
     type =list
     default = [
-      "dennis.castillo@sharp.com"
+      "dennis.castillo@sharp.com",
+      "dennis@denniscastillo.net"
     ]
   
 }
