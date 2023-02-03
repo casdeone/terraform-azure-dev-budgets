@@ -7,9 +7,9 @@ resource "azurerm_resource_group" "resource_group" {
 }
 
 resource "azurerm_monitor_action_group" "action_group" {
-  name                = "example"
+  name                = "${data.azurerm_subscription.current.display_name}-ag"
   resource_group_name = var.resource_group_name
-  short_name          = "example"
+  short_name          = "${data.azurerm_subscription.current.display_name}-ag"
 }
 
 resource "azurerm_consumption_budget_subscription" "budget_subscription" {
@@ -20,7 +20,7 @@ resource "azurerm_consumption_budget_subscription" "budget_subscription" {
   time_grain = "Monthly"
 
   time_period {
-    start_date = "2023-01-01T00:00:00Z"
+    start_date = "2023-02-01T00:00:00Z"
     end_date   = "2026-12-01T00:00:00Z"
   }
 
