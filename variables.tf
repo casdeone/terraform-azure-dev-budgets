@@ -8,11 +8,8 @@ variable "location" {
 variable "default_email_contacts" {
     type =list
     default = [
-      "azure.isd@sharp.com",
       "dennis.castillo@sharp.com",
-      "kevin.rothstein@sharp.com",
-      "brent.gonzales@sharp.com",
-      "alton.lindsey@sharp.com"
+      "dennis@denniscastillo.net"
     ]
   
 }
@@ -25,4 +22,14 @@ variable "email_contact" {
 variable "resource_group_name"{
     type = string
     
+}
+
+variable "subscription_name" {
+    type = string
+    description = "subscription display name"
+}
+
+variable "subscription_id" {
+    type = string
+    description = "subscription id"
 }

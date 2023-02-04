@@ -1,6 +1,7 @@
 #create resources
 data "azurerm_subscription" "current" {}
 
+
 data "azurerm_resource_group" "resource_group"{
   name = var.resource_group_name
 }
@@ -8,9 +9,20 @@ resource "azurerm_monitor_action_group" "example" {
   name                = "example"
   resource_group_name = data.azurerm_resource_group.resource_group.name
   short_name          = "example"
+
+resource "time_static" "budget_devsub_start_time" {}
+
+output "budget_devsub_start_time" {
+  value = time_static.budget_devsub_start_time.rfc3339
 }
 
-resource "azurerm_consumption_budget_subscription" "example" {
+resource "azurerm_monitor_action_group" "action_group" {
+  name                = "${data.azurerm_subscription.current.display_name}-ag"
+  resource_group_name = var.resource_group_name
+  short_name          = "${data.azurerm_subscription.current.display_name}-ag"
+}
+
+resource "azurerm_consumption_budget_subscription" "budget_subscription" {
   name            = data.azurerm_subscription.current.display_name
   subscription_id = data.azurerm_subscription.current.id
 
@@ -18,30 +30,9 @@ resource "azurerm_consumption_budget_subscription" "example" {
   time_grain = "Monthly"
 
   time_period {
-    start_date = "2022-09-01T00:00:00Z"
-    // end_date   = "2022-07-01T00:00:00Z"
+    start_date = time_static.budget_devsub_start_time.rfc3339 #"2023-02-01T00:00:00Z"
+    # end_date   = "${timeadd(time_static.budget_devsub_start_time.rfc3339, "43800h")}" optional default 10years
   }
-
-// below filter is optional to monitor specific resource groups rather than entire subscription
-/*
-  filter {
-    dimension {
-      name = "ResourceGroupName"
-      values = [
-        azurerm_resource_group.example.name,
-      ]
-    }
-
-    tag {
-      name = "foo"
-      values = [
-        "bar",
-        "baz",
-      ]
-    }
-  }
-*/
-
   notification {
     enabled   = true
     threshold = 2.0     // 1% to verify alerts are working then change to 80.0
@@ -50,15 +41,8 @@ resource "azurerm_consumption_budget_subscription" "example" {
     contact_emails = concat(var.default_email_contacts,var.email_contact)  // emails should go to a primary, multiple for testing purposes
 
     contact_groups = [
-      azurerm_monitor_action_group.example.id,
+      azurerm_monitor_action_group.action_group.id,
     ]
-/*
-    contact_roles = [
-      "Owner",
-    ]
-  }
-*/  //discus this option
 
-  
-}
+  }
 }
