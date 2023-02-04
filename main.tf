@@ -1,19 +1,6 @@
 #create resources
 data "azurerm_subscription" "current" {}
 
-
-/*
-data "azurerm_resource_group" "resource_group"{
-  name = var.resource_group_name
-}
-*/
-
-resource "time_static" "budget_devsub_start_time" {}
-
-output "budget_devsub_start_time" {
-  value = time_static.budget_devsub_start_time.rfc3339
-}
-
 resource "azurerm_monitor_action_group" "action_group" {
   name                = "${data.azurerm_subscription.current.display_name}-ag"
   resource_group_name = var.resource_group_name
@@ -28,7 +15,7 @@ resource "azurerm_consumption_budget_subscription" "budget_subscription" {
   time_grain = "Monthly"
 
   time_period {
-    start_date = formatdate("01 MMM YYYY hh:,, ZZZ", "${time_static.budget_devsub_start_time.rfc3339}")
+    start_date = formatdate("YYY-MM-01'T'hh:mm:ssZ", timestamp())
     #start_date = time_static.budget_devsub_start_time.rfc3339 #"2023-02-01T00:00:00Z"
     # end_date   = "${timeadd(time_static.budget_devsub_start_time.rfc3339, "43800h")}" optional default 10years
   }
@@ -43,5 +30,10 @@ resource "azurerm_consumption_budget_subscription" "budget_subscription" {
       azurerm_monitor_action_group.action_group.id,
     ]
 
+  }
+  lifecycle {
+    ignore_changes = [
+      time_period
+    ]
   }
 }
