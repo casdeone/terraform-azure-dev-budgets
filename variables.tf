@@ -7,14 +7,15 @@ variable "location" {
 
 variable "default_email_contacts" {
     type =list
-    default = [
+    default = null
+    /*default = [
       "dennis.castillo@sharp.com",
       "dennis@denniscastillo.net"
-    ]
+    ]*/
   
 }
 
-variable "email_contact" {
+variable "email_contacts" {
     type = list
     description = "email contacts"
 }
