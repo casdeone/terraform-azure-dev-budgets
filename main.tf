@@ -24,7 +24,7 @@ resource "azurerm_consumption_budget_subscription" "budget_subscription" {
     threshold = 2.0     // 1% to verify alerts are working then change to 80.0
     operator  = "EqualTo"
 
-    contact_emails = concat(var.default_email_contacts,var.email_contact)  // emails should go to a primary, multiple for testing purposes
+    contact_emails = var.email_contacts  // emails should go to a primary, multiple for testing purposes
 
     contact_groups = [
       azurerm_monitor_action_group.action_group.id,

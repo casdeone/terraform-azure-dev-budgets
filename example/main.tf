@@ -4,7 +4,7 @@ module "dev-budgets" {
   #version = "1.0.2"
   source = "../"
   location = "westus3"
-  email_contact = ["casdeone@gmail.com"]
+  email_contacts = ["casdeone@gmail.com"]
   resource_group_name = "dts-rg"
   subscription_id = "00a68851-3686-4442-9966-7ed17046b956"
   subscription_name = "Azure for Prod"
