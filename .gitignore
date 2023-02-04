@@ -1,3 +1,5 @@
 **/*.tfstate
 example/.terraform*
 example/my*
+.terraform.lock.hcl
+.terraform/

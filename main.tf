@@ -1,14 +1,12 @@
 #create resources
 data "azurerm_subscription" "current" {}
 
-resource "azurerm_resource_group" "rg_shc_sandbox" {
-  name     = var.resource_group_name
-  location = var.location
+data "azurerm_resource_group" "resource_group"{
+  name = var.resource_group_name
 }
-
 resource "azurerm_monitor_action_group" "example" {
   name                = "example"
-  resource_group_name = azurerm_resource_group.rg_shc_sandbox.name
+  resource_group_name = data.azurerm_resource_group.resource_group.name
   short_name          = "example"
 }
 
