@@ -2,15 +2,18 @@
 data "azurerm_subscription" "current" {}
 
 
+data "azurerm_resource_group" "resource_group"{
+  name = var.resource_group_name
+}
+resource "azurerm_monitor_action_group" "example" {
+  name                = "example"
+  resource_group_name = data.azurerm_resource_group.resource_group.name
+  short_name          = "example"
+
 resource "time_static" "budget_devsub_start_time" {}
 
 output "budget_devsub_start_time" {
   value = time_static.budget_devsub_start_time.rfc3339
-}
-
-resource "azurerm_resource_group" "resource_group" {
-  name     = var.resource_group_name
-  location = var.location
 }
 
 resource "azurerm_monitor_action_group" "action_group" {
