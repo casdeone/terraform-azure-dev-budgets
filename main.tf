@@ -1,21 +1,6 @@
 #create resources
 data "azurerm_subscription" "current" {}
 
-
-data "azurerm_resource_group" "resource_group"{
-  name = var.resource_group_name
-}
-resource "azurerm_monitor_action_group" "example" {
-  name                = "example"
-  resource_group_name = data.azurerm_resource_group.resource_group.name
-  short_name          = "example"
-
-resource "time_static" "budget_devsub_start_time" {}
-
-output "budget_devsub_start_time" {
-  value = time_static.budget_devsub_start_time.rfc3339
-}
-
 resource "azurerm_monitor_action_group" "action_group" {
   name                = "${data.azurerm_subscription.current.display_name}-ag"
   resource_group_name = var.resource_group_name
@@ -30,7 +15,8 @@ resource "azurerm_consumption_budget_subscription" "budget_subscription" {
   time_grain = "Monthly"
 
   time_period {
-    start_date = time_static.budget_devsub_start_time.rfc3339 #"2023-02-01T00:00:00Z"
+    start_date = formatdate("YYYY-MM-01'T'hh:mm:ssZ", timestamp())
+    #start_date = time_static.budget_devsub_start_time.rfc3339 #"2023-02-01T00:00:00Z"
     # end_date   = "${timeadd(time_static.budget_devsub_start_time.rfc3339, "43800h")}" optional default 10years
   }
   notification {
@@ -38,11 +24,16 @@ resource "azurerm_consumption_budget_subscription" "budget_subscription" {
     threshold = 2.0     // 1% to verify alerts are working then change to 80.0
     operator  = "EqualTo"
 
-    contact_emails = concat(var.default_email_contacts,var.email_contact)  // emails should go to a primary, multiple for testing purposes
+    contact_emails = var.email_contacts  // emails should go to a primary, multiple for testing purposes
 
     contact_groups = [
       azurerm_monitor_action_group.action_group.id,
     ]
 
+  }
+  lifecycle {
+    ignore_changes = [
+      time_period
+    ]
   }
 }
