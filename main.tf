@@ -15,7 +15,7 @@ resource "azurerm_consumption_budget_subscription" "budget_subscription" {
   time_grain = "Monthly"
 
   time_period {
-    start_date = formatdate("YYY-MM-01'T'hh:mm:ssZ", timestamp())
+    start_date = formatdate("YYYY-MM-01'T'hh:mm:ssZ", timestamp())
     #start_date = time_static.budget_devsub_start_time.rfc3339 #"2023-02-01T00:00:00Z"
     # end_date   = "${timeadd(time_static.budget_devsub_start_time.rfc3339, "43800h")}" optional default 10years
   }
