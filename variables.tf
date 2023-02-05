@@ -36,6 +36,6 @@ variable "subscription_id" {
 }
 
 variable notification_threhold {
-    type = numeric
+    type = number
     default = 80
 }
