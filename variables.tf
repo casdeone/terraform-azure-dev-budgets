@@ -34,3 +34,8 @@ variable "subscription_id" {
     type = string
     description = "subscription id"
 }
+
+variable notification_threhold {
+    type = numeric
+    default = 80
+}

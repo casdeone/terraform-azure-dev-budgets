@@ -21,7 +21,7 @@ resource "azurerm_consumption_budget_subscription" "budget_subscription" {
   }
   notification {
     enabled   = true
-    threshold = 2.0     // 1% to verify alerts are working then change to 80.0
+    threshold = var.notification_threhold    // 1% to verify alerts are working then change to 80.0 default 80
     operator  = "EqualTo"
 
     contact_emails = var.email_contacts  // emails should go to a primary, multiple for testing purposes
