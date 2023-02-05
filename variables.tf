@@ -19,22 +19,6 @@ variable "email_contacts" {
     type = list
     description = "email contacts"
 }
-
-variable "resource_group_name"{
-    type = string
-    
-}
-
-variable "subscription_name" {
-    type = string
-    description = "subscription display name"
-}
-
-variable "subscription_id" {
-    type = string
-    description = "subscription id"
-}
-
 variable notification_threhold {
     type = number
     default = 80
