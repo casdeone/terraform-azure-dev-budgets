@@ -4,5 +4,5 @@ module "dev-budgets" {
   #version = "1.0.2"
   source = "../"
   location = "westus3"
-  email_contacts = ["casdeone@gmail.com"]
+  email_contacts = ["dennis@home.com"]
 }
